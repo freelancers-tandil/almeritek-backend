@@ -12,13 +12,13 @@ class Cliente_m extends CI_Model
   // Add client in BD
   {
     $db_response = $this->db->insert('cliente',$data);
-    if ($this->db->affected_rows()>0){
+    if ($db['error']=$this->db->error()){
+      return $db;
+    } else {
       $this->db->select('*');
       $this->db->from('cliente c');
       $this->db->where('id',$this->db->insert_id());
       return $this->db->get()->result();
-    } else {
-      return false;
     }
   }
 

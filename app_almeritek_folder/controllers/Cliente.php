@@ -1,10 +1,10 @@
 <?php
-require(APPPATH.'libraries/REST_Controller.php');
+require(APPPATH.'libraries/AT_REST_Controller.php');
 
 /**
  *
  */
-class Cliente extends REST_Controller
+class Cliente extends AT_REST_Controller//REST_Controller
 {
 
   function __construct()
@@ -48,12 +48,15 @@ class Cliente extends REST_Controller
       $cliente_array = (array) $cliente;
       $this->load->model('Cliente_m');
       $added_cliente = $this->Cliente_m->add_cliente($cliente_array);
-      if ($added_cliente){
-        $added[$added_cliente['id']]=$added_cliente;
+      $not_added=array();
+      $added=array();
+      if (isset($added_cliente['error'])){
+        $cliente_array['error']=$added_cliente['error'];
+        array_push($not_added,$cliente_array);
       } else {
-        $not_added[$cliente_array['id']]=$cliente_array;
+        $added[$added_cliente['id']]=$added_cliente;
       }
-      $this->response(array($added,$not_added),200);
+      $this->response(array("added"=>$added,"not_added"=>$not_added),200);
     }
   }
 
