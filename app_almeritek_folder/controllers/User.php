@@ -62,7 +62,18 @@ class User extends REST_Controller
       }
   }
 
-
+  public function index_put()
+  {
+    $this->load->model('User_m');
+    $user = json_decode($this->input->input_stream('json'));
+    $update = $this->User_m->update_user($user);
+    if(isset($update['error'])){
+      $this->response($update['error'], 404);
+    }
+    else {
+      $this->response('Update Complete', 200);
+    }
+  }
 
 }
  ?>

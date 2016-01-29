@@ -36,6 +36,7 @@ class User_m extends CI_Model
                 'user_id'=>$this->details->id,
                 'name'=> $this->details->nombre . ' ' . $this->details->apellido,
                 'email'=>$this->details->email,
+                'rol'=>$this->details->rol,
                 'isLoggedIn'=>true
             )
         );
@@ -68,11 +69,11 @@ class User_m extends CI_Model
       $this->db->where('username', $username);
       $res=$this->db->get()->result();
       if($res){
-        return true;
+        return $res;
       }
       return false;
     }
-    
+
     function delete_user($username)
     {
       if($this->check_exists($username)){
@@ -82,8 +83,33 @@ class User_m extends CI_Model
       return false;
     }
 
+    function update_user($user)
+    {
+      $user = (object) $user;
+      if($this->check_exists($user->username)){
+        $data = array(
+          'username'=>$user->username,
+          'password'=>$user->password,
+          'nombre'=>$user->nombre,
+          'apellido'=>$user->apellido,
+          'email'=>$user->email,
+          'rol'=>$user->rol
+        );
+        $this->db->where('username',$user->username);
+        $this->db->update('user',$data);
+        return true;
 
 
+      }
+      else
+      {
+          $error = array(
+            'code'=>'50000',
+            'message'=>'El nombre de usuario no existe'
+          );
+          return array('error' => $error);
+      }
 
+    }
 }
  ?>
