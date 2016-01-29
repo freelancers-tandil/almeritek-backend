@@ -39,6 +39,29 @@ class User extends REST_Controller
     $this->response($x,200);
   }
 
+  public function index_post()
+{
+  $data = json_decode($this->input->input_stream('json'));
+  $data2 = (array) $data;
+  $this->load->model('User_m');
+  $error= $this->User_m->add_user($data2);
+
+  if(isset($error)){
+    $error_j = json_encode($error);
+    $this->response($error,400);
+    }
+  }
+
+  public function index_delete()
+  {
+    $this->load->model('User_m');
+     $delete = $this->User_m->delete_user($this->input->input_stream('username'));
+     if(isset($error)){
+       $error_j = json_encode($error);
+       $this->response($error,400);
+      }
+  }
+
 
 
 }

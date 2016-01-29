@@ -55,6 +55,34 @@ class User_m extends CI_Model
 
     }
 
+    function add_user($user)
+    {
+      $this->db->insert('user', $user);
+      if($data['error'] = $this->db->error())
+        return $data;
+    }
+
+    function check_exists($username){
+      $this->db->select('username');
+      $this->db->from('user u');
+      $this->db->where('username', $username);
+      $res=$this->db->get()->result();
+      if($res){
+        return true;
+      }
+      return false;
+    }
+    
+    function delete_user($username)
+    {
+      if($this->check_exists($username)){
+        $this->db->delete('user');
+        return !$this->check_exists($username);
+      }
+      return false;
+    }
+
+
 
 
 }
