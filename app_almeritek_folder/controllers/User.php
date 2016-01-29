@@ -1,10 +1,10 @@
 <?php
-require(APPPATH.'libraries/REST_Controller.php');
+require(APPPATH.'libraries/AT_REST_Controller.php');
 
 /**
  *
  */
-class User extends REST_Controller
+class User extends AT_REST_Controller
 {
 
   function __construct()
