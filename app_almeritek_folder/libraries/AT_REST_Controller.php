@@ -73,7 +73,9 @@ abstract class AT_REST_Controller extends REST_Controller
           $has_access=true;
         }
       }
-      if ((!$has_access)&&($this->config->item('authorization_enabled'))){
+      if ((!$has_access)&&
+          ($this->config->item('authorization_enabled')) &&
+          (!$this->config->item('authorization_exceptions')[$this->router->class][$this->router->method][$this->request->method])){
         $this->response([
                 $this->config->item('rest_status_field_name') => FALSE,
                 $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_unauthorized'),
