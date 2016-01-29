@@ -15,37 +15,44 @@ abstract class AT_REST_Controller extends REST_Controller
 
     parent::__construct();
 
-    $this->config->load('almeritek');
-    $this->authorization = $this->config->item('almeritek');
-
-    if (isset($this->authorization['role_session_var'])){
-      $var_name=$this->authorization['role_session_var'];
+    $this->load->config('almeritek');
+    $this->authorization = $this->config->item('authorization');
+    $var_name=$this->config->item('authorization_role_session_var');
+    if (null!==$var_name){
       $has_access=false;
       if (null!==$this->session->userdata($var_name)){
         $roles=$this->session->userdata($var_name);
         // [S,S,S]
-        if ((null!==$this->authorization[$this->router->class][$this->router->method][$this->request->method]) && (!empty($access))){
+        if (isset($this->authorization[$this->router->class][$this->router->method][$this->request->method]) &&
+            (!empty($this->authorization[$this->router->class][$this->router->method][$this->request->method]))){
           $access=$this->authorization[$this->router->class][$this->router->method][$this->request->method];
         } // [S,S,A]
-        else if ((null!==$access=$this->authorization[$this->router->class][$this->router->method]['*']) && (!empty($access))){
+        else if (isset($this->authorization[$this->router->class][$this->router->method]['*']) &&
+                  (!empty($this->authorization[$this->router->class][$this->router->method]['*']))){
           $access=$this->authorization[$this->router->class][$this->router->method]['*'];
         } // [S,A,S]
-        else if ((null!==$access=$this->authorization[$this->router->class]['*'][$this->request->method]) && (!empty($access))){
+        else if (isset($this->authorization[$this->router->class]['*'][$this->request->method]) &&
+                  (!empty($this->authorization[$this->router->class]['*'][$this->request->method]))){
           $access=$this->authorization[$this->router->class]['*'][$this->request->method];
         } // [S,A,A]
-        else if ((null!==$access=$this->authorization[$this->router->class]['*']['*']) && (!empty($access))){
+        else if (isset($this->authorization[$this->router->class]['*']['*']) &&
+                  (!empty($this->authorization[$this->router->class]['*']['*']))){
           $access=$this->authorization[$this->router->class]['*']['*'];
         } // [A,S,S]
-        else if ((null!==$this->authorization['*'][$this->router->method][$this->request->method]) && (!empty($access))){
+        else if (isset($this->authorization['*'][$this->router->method][$this->request->method]) &&
+                  (!empty($this->authorization['*'][$this->router->method][$this->request->method]))){
           $access=$this->authorization['*'][$this->router->method][$this->request->method];
         } // [A,S,A]
-        else if ((null!==$this->authorization['*'][$this->router->method]['*']) && (!empty($access))){
+        else if (isset($this->authorization['*'][$this->router->method]['*']) &&
+                  (!empty($this->authorization['*'][$this->router->method]['*']))){
           $access=$this->authorization['*'][$this->router->method]['*'];
         } // [A,A,S]
-        else if ((null!==$this->authorization['*']['*'][$this->request->method]) && (!empty($access))){
+        else if (isset($this->authorization['*']['*'][$this->request->method]) &&
+                  (!empty($this->authorization['*']['*'][$this->request->method]))){
           $access=$this->authorization['*']['*'][$this->request->method];
         } // [A,A,A]
-        else if ((null!==$this->authorization['*']['*']['*']) && (!empty($access))){
+        else if (isset($this->authorization['*']['*']['*']) &&
+                  (!empty($this->authorization['*']['*']['*']))){
           $access=$this->authorization['*']['*']['*'];
         } // Nothing defined
         else {
@@ -53,7 +60,9 @@ abstract class AT_REST_Controller extends REST_Controller
         }
       }
       if (isset($access)){
-        if (is_array($roles)){
+        if (in_array('*',$access)){
+          $has_access=true;
+        } else if (is_array($roles)){
           foreach ($roles as $role) {
             if (in_array($roles,$access)){
               $has_access=true;
@@ -64,11 +73,12 @@ abstract class AT_REST_Controller extends REST_Controller
           $has_access=true;
         }
       }
-      if (!$has_access){
+      if ((!$has_access)&&($this->config->item('authorization_enabled'))){
         $this->response([
                 $this->config->item('rest_status_field_name') => FALSE,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_unauthorized')
-            ], self::HTTP_UNAUTHORIZED);
+                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_unauthorized'),
+                'prueba'=>'valor'], self::HTTP_UNAUTHORIZED
+            );
       }
     }
   }

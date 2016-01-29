@@ -2,9 +2,13 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['authorization']['enabled']=true;
+$config['authorization_enabled']=true;
 
-$config['authorization']['cliente']['*']['*']=array('1');
-$config['authorization']['*']['get']=array('0');
+$config['authorization_role_session_var']='rol';
+
+
+$config['authorization']['*']['*']['*']=array();
+$config['authorization']['user']['login']['get']=array('*');
+$config['authorization']['cliente']['*']['*']=array();
 
  ?>
