@@ -17,20 +17,59 @@ class Cliente extends REST_Controller
   {
     $data = json_decode($this->input->input_stream('json'));
 
-    $data2 = (array) $data;
+    $cliente = (array) $data;
     $this->load->model('Cliente_m');
-
-    $this->Cliente_m->add_cliente($data2);
+    $added_cliente = $this->Cliente_m->add_cliente($cliente);
+    if ($added_cliente){
+      $this->response($added_cliente,200);
+    } else {
+      $this->response($added_cliente,400);
+    }
 
   }
 
   public function list_get(){
     //Calls method get_clientes of the model Cliente_m and lists all the client
     $this->load->model('Cliente_m');
-    $x=$this->Cliente_m->get_clientes();
-    $this->response($x,200);
+    $response=$this->Cliente_m->get_clientes();
+    if($response){
+      $this->response($response,200);
+    } else {
+      $this->response($response,404);
+    }
   }
 
+  public function list_post(){
+    //Calls method get_clientes of the model Cliente_m and lists all the client
+    $this->load->model('Cliente_m');
+    $data = json_decode($this->input->input_stream('json'));
+
+    foreach($data as $cliente){
+      $cliente_array = (array) $cliente;
+      $this->load->model('Cliente_m');
+      $added_cliente = $this->Cliente_m->add_cliente($cliente_array);
+      if ($added_cliente){
+        $added[$added_cliente['id']]=$added_cliente;
+      } else {
+        $not_added[$cliente_array['id']]=$cliente_array;
+      }
+      $this->response(array($added,$not_added),200);
+    }
+  }
+
+  public function index_get($id){
+      $this->load->model('Cliente_m');
+  }
+
+  // public function index_delete(){
+  //
+  // }
+
+  public function search_get($data){
+    $this->load->model('Cliente_m');
+    $response = $this->Cliente_m->get_cliente($data);
+    $this->response($response,200);
+  }
 
 }
 
