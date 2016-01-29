@@ -12,12 +12,13 @@ class User extends REST_Controller
     parent::__construct();
   }
 
-  public function login_get($user,$password)
+  public function login_post()
   {
     $this->load->model('User_m');
-
-    if($this->User_m->validate_user($user, $password)){
-      $this->response(200);
+    $data = json_decode($this->input->input_stream('json'));
+    $user = $this->User_m->validate_user($data->username,$data->password);
+    if($user){
+      $this->response($user,200);
     }
     else{
       $this->response(array(),401);
@@ -72,6 +73,16 @@ class User extends REST_Controller
     }
     else {
       $this->response('Update Complete', 200);
+    }
+  }
+
+  public function checklogin_post(){
+    if (null!==$this->session->userdata('user_id')){
+      $this->load->model('User_m');
+      $user=$this->User_m->get_user_by_id($this->session->userdata('user_id'));
+      $this->response($user,200);
+    } else {
+      $this->response($user,400);
     }
   }
 

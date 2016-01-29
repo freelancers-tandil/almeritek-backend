@@ -7,8 +7,6 @@ $config['authorization_enabled']=true;
 $config['authorization_role_session_var']='rol';
 
 
-$config['authorization']['*']['*']['*']=array();
-$config['authorization']['user']['login']['get']=array('*');
-$config['authorization']['cliente']['*']['*']=array();
+$config['authorization']['*']['*']['*']=array('*');
 
  ?>

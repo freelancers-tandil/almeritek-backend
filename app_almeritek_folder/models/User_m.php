@@ -22,7 +22,7 @@ class User_m extends CI_Model
           $this->details = $login[0];
           // Call set_session to set the user's session vars via CodeIgniter
           $this->set_session();
-          return true;
+          return $login[0];
       }
 
       return false;
@@ -109,6 +109,21 @@ class User_m extends CI_Model
           );
           return array('error' => $error);
       }
+
+    }
+
+    public function get_user_by_id($id){
+      $this->db->from('user');
+      $this->db->where('id',$id );
+      $login = $this->db->get()->result();
+
+      // The results of the query are stored in $login.
+      // If a value exists, then the user account exists and is validated
+      if ( is_array($login) && count($login) == 1 ) {
+          return $login[0];
+      }
+
+      return false;
 
     }
 }
