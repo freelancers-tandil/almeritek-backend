@@ -2,18 +2,24 @@
 /**
  *
  */
-class Taller extends CI_Model
+class Taller_m extends CI_Model
 {
   public function add_taller($taller)
   {
-    $this->db->insert('taller', $taller);
+    $resp = $this->db->insert('taller', $taller);
     if($data['error']=$this->db->error()){
       return $data;
     }
-    return false;
+    else{
+      $this->db->select('*');
+      $this->db->from('taller t');
+      $this->db->where('id',$this->db->insert_id());
+      return $this->db->get()->result();
+    }
   }
 
-  public function check_exists($taller){
+  public function check_exists($id){
+
     $this->db->select('id');
     $this->db->from('taller t');
     $this->db->where('id', $id);
@@ -24,13 +30,61 @@ class Taller extends CI_Model
     return false;
   }
 
-  public function delete_taller($taller)
+  public function delete_taller($id)
   {
-    if($this->check_exists($taller)){
+    if($this->check_exists($id)){
+      $this->db->where('id',$id);
       $this->db->delete('taller');
-      return !$this->check_exists($taller);
+      return !$this->check_exists($id);
     }
     return false;
+  }
+
+  public function get_talleres(){
+
+    $this->db->select('*');
+    $this->db->from('taller t');
+
+    $query=$this->db->get();
+    if($query->num_rows()>0)
+    {
+      return $query->result();
+    }
+  }
+
+  public function update_taller($taller)
+  {
+    $taller = (object) $taller;
+    if($this->check_exists($taller->id)){
+      $data = array(
+        'nombre'=>$taller->nombre,
+        'direccion'=>$taller->direccion,
+        'telefono'=>$taller->telefono,
+      );
+      $this->db->where('id',$taller->id);
+      $this->db->update('taller',$data);
+      return true;
+    }
+    else
+    {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del taller no existe'
+      );
+      return array('error' => $error);
+    }
+  }
+
+  public function get_taller_by_id($id)
+  {
+    $this->db->select('*');
+    $this->db->from('taller t');
+    $this->db->where('id',$id);
+    $query = $this->db->get();
+    if($query->num_rows()>=0)
+    {
+      return $query->result();
+    }
   }
 
 }

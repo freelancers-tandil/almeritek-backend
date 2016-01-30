@@ -61,6 +61,7 @@ class User_m extends CI_Model
       $this->db->insert('user', $user);
       if($data['error'] = $this->db->error())
         return $data;
+      return false;
     }
 
     function check_exists($username){
@@ -77,6 +78,7 @@ class User_m extends CI_Model
     function delete_user($username)
     {
       if($this->check_exists($username)){
+        $this->db->where('username', $username);
         $this->db->delete('user');
         return !$this->check_exists($username);
       }
@@ -98,8 +100,6 @@ class User_m extends CI_Model
         $this->db->where('username',$user->username);
         $this->db->update('user',$data);
         return true;
-
-
       }
       else
       {
