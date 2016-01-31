@@ -2,18 +2,18 @@
 /**
  *
  */
-class Pedido_m extends CI_Model
+class Accesorio_m extends CI_Model
 {
 
-  public function add_pedido($pedido)
+  public function add_accesorio($accesorio)
   {
-    $resp = $this->db->insert('pedido', $pedido);
+    $resp = $this->db->insert('accesorio', $accesorio);
     if($data['error']=$this->db->error()){
       return $data;
     }
     else{
       $this->db->select('*');
-      $this->db->from('pedido p');
+      $this->db->from('accesorio a');
       $this->db->where('id',$this->db->insert_id());
       return $this->db->get()->result();
     }
@@ -22,7 +22,7 @@ class Pedido_m extends CI_Model
   public function check_exists($id){
 
     $this->db->select('id');
-    $this->db->from('pedido p');
+    $this->db->from('accesorio a');
     $this->db->where('id', $id);
     $res=$this->db->get()->result();
     if($res){
@@ -31,20 +31,20 @@ class Pedido_m extends CI_Model
     return false;
   }
 
-  public function delete_pedido($id)
+  public function delete_accesorio($id)
   {
     if($this->check_exists($id)){
       $this->db->where('id',$id);
-      $this->db->delete('pedido');
+      $this->db->delete('accesorio');
       return !$this->check_exists($id);
     }
     return false;
   }
 
-  public function get_pedidos(){
+  public function get_accesorios(){
 
     $this->db->select('*');
-    $this->db->from('pedido p');
+    $this->db->from('accesorio a');
 
     $query=$this->db->get();
     if($query->num_rows()>0)
@@ -53,34 +53,35 @@ class Pedido_m extends CI_Model
     }
   }
 
-  public function update_pedido($pedido)
+  public function update_accesorio($accesorio)
   {
-    $pedido = (object) $pedido;
-    if($this->check_exists($pedido->id)){
+    $accesorio = (object) $accesorio;
+    if($this->check_exists($accesorio->id)){
       $data = array(
-        'fecha_pedido'=>$pedido->fecha_pedido,
-        'proveedor'=>$pedido->proveedor,
-        'fecha_entrega'=>$pedido->fecha_entrega,
-        'precio'=>$pedido->precio,
+        'cargador'=>$accesorio->cargador,
+        'cable'=>$accesorio->cable,
+        'maletin'=>$accesorio->maletin,
+        'caja'=>$accesorio->caja,
+        'otros'=>$accesorio->otros,
       );
-      $this->db->where('id',$pedido->id);
-      $this->db->update('pedido',$data);
+      $this->db->where('id',$accesorio->id);
+      $this->db->update('accesorio',$data);
       return true;
     }
     else
     {
       $error = array(
         'code'=>'50001',
-        'message'=>'El id del pedido no existe'
+        'message'=>'El id del accesorio no existe'
       );
       return array('error' => $error);
     }
   }
 
-  public function get_pedido_by_id($id)
+  public function get_accesorio_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('pedido p');
+    $this->db->from('accesorio a');
     $this->db->where('id',$id);
     $query = $this->db->get();
     if($query->num_rows()>=0)

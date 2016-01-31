@@ -2,18 +2,18 @@
 /**
  *
  */
-class Pedido_m extends CI_Model
+class Estado_m extends CI_Model
 {
 
-  public function add_pedido($pedido)
+  public function add_estado($estado)
   {
-    $resp = $this->db->insert('pedido', $pedido);
+    $resp = $this->db->insert('estado', $estado);
     if($data['error']=$this->db->error()){
       return $data;
     }
     else{
       $this->db->select('*');
-      $this->db->from('pedido p');
+      $this->db->from('estado e');
       $this->db->where('id',$this->db->insert_id());
       return $this->db->get()->result();
     }
@@ -22,7 +22,7 @@ class Pedido_m extends CI_Model
   public function check_exists($id){
 
     $this->db->select('id');
-    $this->db->from('pedido p');
+    $this->db->from('estado e');
     $this->db->where('id', $id);
     $res=$this->db->get()->result();
     if($res){
@@ -31,20 +31,20 @@ class Pedido_m extends CI_Model
     return false;
   }
 
-  public function delete_pedido($id)
+  public function delete_estado($id)
   {
     if($this->check_exists($id)){
       $this->db->where('id',$id);
-      $this->db->delete('pedido');
+      $this->db->delete('estado');
       return !$this->check_exists($id);
     }
     return false;
   }
 
-  public function get_pedidos(){
+  public function get_estados(){
 
     $this->db->select('*');
-    $this->db->from('pedido p');
+    $this->db->from('estado e');
 
     $query=$this->db->get();
     if($query->num_rows()>0)
@@ -53,34 +53,36 @@ class Pedido_m extends CI_Model
     }
   }
 
-  public function update_pedido($pedido)
+  public function update_estado($estado)
   {
-    $pedido = (object) $pedido;
-    if($this->check_exists($pedido->id)){
+    $estado = (object) $estado;
+    if($this->check_exists($estado->id)){
       $data = array(
-        'fecha_pedido'=>$pedido->fecha_pedido,
-        'proveedor'=>$pedido->proveedor,
-        'fecha_entrega'=>$pedido->fecha_entrega,
-        'precio'=>$pedido->precio,
+        'recibido'=>$estado->recibido,
+        'presupuestado'=>$estado->presupuestado,
+        'en_curso'=>$estado->en_curso,
+        'reparado'=>$estado->reparado,
+        'entregado'=>$estado->entregado,
+        'cancelado'=>$estado->cancelado,
       );
-      $this->db->where('id',$pedido->id);
-      $this->db->update('pedido',$data);
+      $this->db->where('id',$estado->id);
+      $this->db->update('estado',$data);
       return true;
     }
     else
     {
       $error = array(
         'code'=>'50001',
-        'message'=>'El id del pedido no existe'
+        'message'=>'El id del estado no existe'
       );
       return array('error' => $error);
     }
   }
 
-  public function get_pedido_by_id($id)
+  public function get_estado_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('pedido p');
+    $this->db->from('estado e');
     $this->db->where('id',$id);
     $query = $this->db->get();
     if($query->num_rows()>=0)
