@@ -76,6 +76,56 @@ class Cliente_m extends CI_Model
   }
 
 
+  public function update_cliente($cliente)
+  {
+    $cliente = (object) $cliente;
+    if($this->check_exists($cliente->id)){
+      $data = array(
+      );
+      if(isset($cliente->nombre)){
+        $data['nombre'] = $cliente->nombre;
+      }
+      if(isset($cliente->apellido_1)){
+        $data['apellido_1'] = $cliente->apellido_1;
+      }
+      if(isset($cliente->apellido_2)){
+        $data['apellido_2'] = $cliente->apellido_2;
+      }
+      if(isset($cliente->identity_number)){
+        $data['identity_number'] = $cliente->identity_number;
+      }
+      if(isset($cliente->telefono_1)){
+        $data['telefono_1'] = $cliente->telefono_1;
+      }
+      if(isset($cliente->telefono_2)){
+        $data['telefono_2'] = $cliente->telefono_2;
+      }
+      if(isset($cliente->direccion)){
+        $data['direccion'] = $cliente->direccion;
+      }
+      if(isset($cliente->tipo_cliente)){
+        $data['tipo_cliente']= $cliente->tipo_cliente;
+      }
+      if(isset($cliente->codigo_postal)){
+        $data ['codigo_postal'] = $cliente->codigo_postal;
+      }
+
+      $this->db->where('id',$cliente->id);
+      $this->db->update('cliente',$data);
+      return true;
+    }
+    else
+    {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del cliente no existe'
+      );
+      return array('error' => $error);
+    }
+  }
+
+
+
 }
 
 

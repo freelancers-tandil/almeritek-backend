@@ -54,10 +54,10 @@ class Pieza extends AT_REST_Controller
     $pieza = json_decode($this->input->input_stream('json'));
     $update = $this->Pieza_m->update_pieza($pieza);
     if(isset($update['error'])){
-      $this->response($update['error'], 404);
+      $this->response($update['error'], 400);
     }
     else {
-      $this->response('Update Complete', 200);
+      $this->response(true, 200);
     }
   }
 

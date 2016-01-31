@@ -58,11 +58,30 @@ class Pieza_m extends CI_Model
     $pieza = (object) $pieza;
     if($this->check_exists($pieza->id)){
       $data = array(
-        'producto'=>$pieza->producto,
-        'precio'=>$pieza->precio,
-        'link'=>$pieza->link,
-        'pedido'=>$pieza->pedido,
       );
+      if(isset($pieza->producto)){
+        $data['producto']= $pieza->producto;
+      }
+      if(isset($pieza->precio)){
+        $data['precio']= $pieza->precio;
+      }
+      if(isset($pieza->link)){
+        $data['link']= $pieza->link;
+      }
+      if(isset($pieza->pedido)){
+        $this->load->model(Pedido_m):
+        if($this->Pedido_m->check_exists($pieza->pedido)){
+          $data['pedido'] = $pieza->pedido;
+        }
+        else{
+          $error =array(
+            'code'=>'54001',
+            'message'=>'El pedido no existe'
+          );
+          return  array( 'error'=>$error);
+          )
+        }
+      }
       $this->db->where('id',$pieza->id);
       $this->db->update('pieza',$data);
       return true;

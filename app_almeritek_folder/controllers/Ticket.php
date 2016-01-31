@@ -54,10 +54,10 @@ class Ticket extends AT_REST_Controller
     $ticket = json_decode($this->input->input_stream('json'));
     $update = $this->Ticket_m->update_ticket($ticket);
     if(isset($update['error'])){
-      $this->response($update['error'], 404);
+      $this->response($update['error'], 400);
     }
     else {
-      $this->response('Update Complete', 200);
+      $this->response(true, 200);
     }
   }
 

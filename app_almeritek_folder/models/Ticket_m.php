@@ -58,23 +58,106 @@ class Ticket_m extends CI_Model
     $ticket = (object) $ticket;
     if($this->check_exists($ticket->id)){
       $data = array(
-        'num_ticket'=>$ticket->num_ticket,
-        'fecha'=>$ticket->fecha,
-        'taller'=>$ticket->taller,
-        'equipo'=>$ticket->equipo,
-        'modelo'=>$ticket->modelo,
-        'marca'=>$ticket->marca,
-        'imei'=>$ticket->imei,
-        'cliente'=>$ticket->cliente,
-        'costo_reparacion'=>$ticket->costo_reparacion,
-        'tecnico'=>$ticket->tecnico,
-        'avisado'=>$ticket->avisado,
-        'estado'=>$ticket->estado,
-        'beneficio_tecnico'=>$ticket->beneficio_tecnico,
-        'observaciones'=>$ticket->observaciones,
-        'fecha_cierre'=>$ticket->fecha_cierre,
-        'pedido'=>$ticket->pedido,
       );
+      if(isset($ticket->num_ticket)){
+        $data['num_ticket'] = $ticket->num_ticket;
+      }
+      if(isset($ticket->fecha)){
+        $data['fecha'] = $ticket->fecha;
+      }
+      if(isset($ticket->taller)){
+        $this->load->model('Taller_m');
+        if($this->Taller_m->check_exists($ticket->taller)){
+          $data['taller'] = $ticket->taller;
+        }
+        else{
+          $error = array(
+            'code'=>'55000',
+            'message'=>'El taller no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
+      if(isset($ticket->equipo)){
+        $data['equipo'] = $ticket->equipo;
+      }
+      if(isset($ticket->modelo)){
+        $data['modelo'] = $ticket->modelo;
+      }
+      if(isset($ticket->marca)){
+        $data['marca'] = $ticket->marca;
+      }
+      if(isset($ticket->imei)){
+        $data['imei'] = $ticket->imei;
+      }
+      if(isset($ticket->cliente)){
+        $this->load->model('Cliente_m');
+        if($this->Cliente_m->check_exists($ticket->cliente)){
+          $data['cliente'] = $ticket->cliente;
+        }
+        else{
+          $error = array(
+            'code'=>'55001',
+            'message'=>'El cliente no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
+      if(isset($ticket->costo_reparacion)){
+        $data['costo_reparacion']= $ticket->costo_reparacion;
+      }
+      if(isset($ticket->tecnico)){
+        $this->load->model('Tecnico_m');
+        if($this->Tecnico_m->check_exists($ticket->tecnico)){
+          $data['tecnico']= $ticket->tecnico;
+        }
+        else{
+          $error = array(
+            'code'=>'55002',
+            'message'=>'El tecnico no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
+      if(isset($ticket->avisado)){
+        $data ['avisado'] = $ticket->avisado;
+      }
+
+      if(isset($ticket->estado)){
+        $this->load->model('Estado_m');
+        if($this->Estado_m->check_exists($ticket->estado)){
+          $data['estado']= $ticket->estado;
+        }
+        else{
+          $error = array(
+            'code'=>'55003',
+            'message'=>'El estado no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
+      if(isset($ticket->beneficio_tecnico)){
+        $data ['beneficio_tecnico'] = $ticket->beneficio_tecnico;
+      }
+      if(isset($ticket->observaciones)){
+        $data ['observaciones'] = $ticket->observaciones;
+      }
+      if(isset($ticket->fecha_cierre)){
+        $data ['fecha_cierre'] = $ticket->fecha_cierre;
+      }
+      if(isset($ticket->pedido)){
+        $this->load->model('Pedido_m');
+        if($this->Pedido_m->check_exists($ticket->pedido)){
+          $data['pedido']= $ticket->pedido;
+        }
+        else{
+          $error = array(
+            'code'=>'55004',
+            'message'=>'El pedido no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
       $this->db->where('id',$ticket->id);
       $this->db->update('ticket',$data);
       return true;
