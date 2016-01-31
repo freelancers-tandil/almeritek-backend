@@ -61,6 +61,7 @@ class Pieza_m extends CI_Model
         'producto'=>$pieza->producto,
         'precio'=>$pieza->precio,
         'link'=>$pieza->link,
+        'pedido'=>$pieza->pedido,
       );
       $this->db->where('id',$pieza->id);
       $this->db->update('pieza',$data);
