@@ -12,7 +12,7 @@ abstract class AT_REST_Controller extends REST_Controller
 
   function __construct()
   {
-
+    header('Access-Control-Allow-Origin: *');
     parent::__construct();
 
     $this->load->config('almeritek');
