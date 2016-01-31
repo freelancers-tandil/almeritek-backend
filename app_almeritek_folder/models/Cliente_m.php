@@ -75,6 +75,15 @@ class Cliente_m extends CI_Model
 
   }
 
+  public function delete_cliente($id)
+  {
+    if($this->check_exists($id)){
+      $this->db->where('id',$id);
+      $this->db->delete('cliente');
+      return !$this->check_exists($id);
+    }
+    return false;
+  }
 
   public function update_cliente($cliente)
   {
@@ -122,6 +131,15 @@ class Cliente_m extends CI_Model
       );
       return array('error' => $error);
     }
+  }
+
+
+  public function cant_clientes(){
+    $this->db->select('*');
+    $this->db->from('cliente c');
+    $query=$this->db->get();
+    return $query->num_rows();
+    
   }
 
 

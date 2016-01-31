@@ -90,13 +90,25 @@ class User_m extends CI_Model
       $user = (object) $user;
       if($this->check_exists($user->username)){
         $data = array(
-          'username'=>$user->username,
-          'password'=>$user->password,
-          'nombre'=>$user->nombre,
-          'apellido'=>$user->apellido,
-          'email'=>$user->email,
-          'rol'=>$user->rol
         );
+        if(isset($user->username)){
+          $data['username']=$user->username;
+        }
+        if(isset($user->password)){
+          $data['password']=$user->password;
+        }
+        if(isset($user->nombre)){
+          $data['nombre']=$user->nombre;
+        }
+        if(isset($user->apellido)){
+          $data['apellido']=$user->apellido;
+        }
+        if(isset($user->email)){
+          $data['email']=$user->email;
+        }
+        if(isset($user->rol)){
+          $data['rol']=$user->rol;
+        }
         $this->db->where('username',$user->username);
         $this->db->update('user',$data);
         return true;

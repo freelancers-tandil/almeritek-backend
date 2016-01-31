@@ -57,10 +57,16 @@ class Taller_m extends CI_Model
     $taller = (object) $taller;
     if($this->check_exists($taller->id)){
       $data = array(
-        'nombre'=>$taller->nombre,
-        'direccion'=>$taller->direccion,
-        'telefono'=>$taller->telefono,
       );
+      if(isset($taller->nombre)){
+        $data['nombre']=$taller->nombre;
+      }
+      if(isset($taller->direccion)){
+        $data['direccion']=$taller->direccion;
+      }
+      if(isset($taller->telefono)){
+        $data['telefono']=$taller->telefono;
+      }
       $this->db->where('id',$taller->id);
       $this->db->update('taller',$data);
       return true;

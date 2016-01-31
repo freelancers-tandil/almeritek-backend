@@ -64,14 +64,18 @@ class Cliente extends AT_REST_Controller//REST_Controller
       $this->load->model('Cliente_m');
   }
 
-  // public function index_delete(){
-  //
-  // }
+
 
   public function search_get($data){
     $this->load->model('Cliente_m');
     $response = $this->Cliente_m->get_cliente($data);
     $this->response($response,200);
+  }
+
+  public function cantidad_get(){
+    $this->load->model('Cliente_m');
+    $response = $this->Cliente_m->cant_clientes();
+    return ($response, 200);
   }
 
 }

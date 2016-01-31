@@ -57,9 +57,13 @@ class Tecnico_m extends CI_Model
     $tecnico = (object) $tecnico;
     if($this->check_exists($tecnico->id)){
       $data = array(
-        'nombre'=>$tecnico->nombre,
-        'apellido'=>$tecnico->apellido,
       );
+      if(isset($tecnico->nombre)){
+        $data['nombre']=$tecnico->nombre;
+      }
+      if(isset($tecnico->apellido)){
+        $data['apellido']=$tecnico->apellido;
+      }
       $this->db->where('id',$tecnico->id);
       $this->db->update('tecnico',$data);
       return true;

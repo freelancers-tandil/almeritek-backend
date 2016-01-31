@@ -58,13 +58,25 @@ class Estado_m extends CI_Model
     $estado = (object) $estado;
     if($this->check_exists($estado->id)){
       $data = array(
-        'recibido'=>$estado->recibido,
-        'presupuestado'=>$estado->presupuestado,
-        'en_curso'=>$estado->en_curso,
-        'reparado'=>$estado->reparado,
-        'entregado'=>$estado->entregado,
-        'cancelado'=>$estado->cancelado,
       );
+      if(isset($estado->recibido)){
+        $data['recibido']=$estado->recibido;
+      }
+      if(isset($estado->presupuestado)){
+        $data['presupuestado']=$estado->presupuestado;
+      }
+      if(isset($estado->en_curso)){
+        $data['en_curso']=$estado->en_curso;
+      }
+      if(isset($estado->reparado)){
+        $data['reparado']=$estado->reparado;
+      }
+      if(isset($estado->entregado)){
+        $data['entregado']=$estado->entregado;
+      }
+      if(isset($estado->cancelado)){
+        $data['cancelado']=$estado->cancelado;
+      }
       $this->db->where('id',$estado->id);
       $this->db->update('estado',$data);
       return true;

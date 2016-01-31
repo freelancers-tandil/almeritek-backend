@@ -58,11 +58,19 @@ class Pedido_m extends CI_Model
     $pedido = (object) $pedido;
     if($this->check_exists($pedido->id)){
       $data = array(
-        'fecha_pedido'=>$pedido->fecha_pedido,
-        'proveedor'=>$pedido->proveedor,
-        'fecha_entrega'=>$pedido->fecha_entrega,
-        'precio'=>$pedido->precio,
       );
+      if(isset($pedido->fecha_pedido)){
+        $data['fecha_pedido']=$pedido->fecha_pedido;
+      }
+      if(isset($pedido->proveedor)){
+        $data['proveedor']=$pedido->proveedor;
+      }
+      if(isset($pedido->fecha_entrega)){
+        $data['fecha_entrega']=$pedido->fecha_entrega;
+      }
+      if(isset($pedido->precio)){
+        $data['precio']=$pedido->precio;
+      }
       $this->db->where('id',$pedido->id);
       $this->db->update('pedido',$data);
       return true;

@@ -58,12 +58,22 @@ class Accesorio_m extends CI_Model
     $accesorio = (object) $accesorio;
     if($this->check_exists($accesorio->id)){
       $data = array(
-        'cargador'=>$accesorio->cargador,
-        'cable'=>$accesorio->cable,
-        'maletin'=>$accesorio->maletin,
-        'caja'=>$accesorio->caja,
-        'otros'=>$accesorio->otros,
       );
+      if(isset($accesorio->cargador)){
+        $data['cargador']=$accesorio->cargador;
+      }
+      if(isset($accesorio->cable)){
+        $data['cable']=$accesorio->cable;
+      }
+      if(isset($accesorio->maletin)){
+        $data['maletin']=$accesorio->maletin;
+      }
+      if(isset($accesorio->caja)){
+        $data['caja']=$accesorio->caja;
+      }
+      if(isset($accesorio->otros)){
+        $data['otros']=$accesorio->otros;
+      }
       $this->db->where('id',$accesorio->id);
       $this->db->update('accesorio',$data);
       return true;
