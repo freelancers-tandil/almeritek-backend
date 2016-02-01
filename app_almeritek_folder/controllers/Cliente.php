@@ -13,6 +13,7 @@ class Cliente extends AT_REST_Controller//REST_Controller
   }
 
 
+
   public function index_post()
   {
     $data = json_decode($this->input->input_stream('json'));
@@ -20,7 +21,7 @@ class Cliente extends AT_REST_Controller//REST_Controller
     $cliente = (array) $data;
     $this->load->model('Cliente_m');
     $added_cliente = $this->Cliente_m->add_cliente($cliente);
-    if ($added_cliente){
+    if (!isset($added_cliente['error'])){
       $this->response($added_cliente,200);
     } else {
       $this->response($added_cliente,400);
@@ -76,6 +77,30 @@ class Cliente extends AT_REST_Controller//REST_Controller
     $this->load->model('Cliente_m');
     $response = $this->Cliente_m->cant_clientes();
     $this->response(array('cantidad'=>$response),200);
+  }
+
+  public function index_put()
+  {
+    $this->load->model('Cliente_m');
+    $cliente = json_decode($this->input->input_stream('json'));
+    $update = $this->Cliente_m->update_cliente($cliente);
+    if(isset($update['error'])){
+      $this->response($update['error'], 404);
+    }
+    else {
+      $this->response('Update Complete', 200);
+    }
+  }
+
+  public function index_delete(){
+    $this->load->model('Cliente_m');
+    $cliente = (object) $this->delete();
+    $delete = $this->Cliente_m->delete_cliente($cliente->id);
+    if(!isset($delete['error'])){
+      $this->response($delete,200);
+    } else{
+      $this->response($delete,400);
+    }
   }
 
 }

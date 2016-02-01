@@ -12,13 +12,13 @@ class Cliente_m extends CI_Model
   // Add client in BD
   {
     $db_response = $this->db->insert('cliente',$data);
-    if ($db['error']=$this->db->error()){
-      return $db;
-    } else {
+    if ($db_response){
       $this->db->select('*');
       $this->db->from('cliente c');
       $this->db->where('id',$this->db->insert_id());
       return $this->db->get()->result();
+    } else {
+      return array('error'=>$this->db->error());
     }
   }
 
@@ -35,6 +35,19 @@ class Cliente_m extends CI_Model
     }
 
   }
+
+  public function check_exists($id){
+
+    $this->db->select('id');
+    $this->db->from('cliente c');
+    $this->db->where('id', $id);
+    $res=$this->db->get()->result();
+    if($res){
+      return $res;
+    }
+    return false;
+  }
+
 
   function get_cliente($cliente){
 
@@ -80,9 +93,18 @@ class Cliente_m extends CI_Model
     if($this->check_exists($id)){
       $this->db->where('id',$id);
       $this->db->delete('cliente');
-      return !$this->check_exists($id);
+      if ($this->check_exists($id)){
+        return array('error' => $this->db->error());
+      }
+      return true;
+    } else {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del taller no existe'
+      );
+      return array('error' => $error);
     }
-    return false;
+
   }
 
   public function update_cliente($cliente)
@@ -138,7 +160,7 @@ class Cliente_m extends CI_Model
     $this->db->select('*');
     $this->db->from('cliente c');
     $query=$this->db->get();
-    return $query->num_rows();  
+    return $query->num_rows();
   }
 
 

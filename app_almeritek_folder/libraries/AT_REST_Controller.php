@@ -84,6 +84,16 @@ abstract class AT_REST_Controller extends REST_Controller
       }
     }
   }
+
+  protected function _parse_delete()
+  {
+  // Set up out DELETE variables (which shouldn't really exist, but sssh!)
+    if (stripos($this->input->server('CONTENT_TYPE'), "application/xml") === FALSE){
+      $this->_delete_args = (array)json_decode(file_get_contents("php://input"));
+    } else {
+      $this->_delete_args = $this->format->_from_xml(file_get_contents("php://input"));
+    }
+  }
 }
 
 
