@@ -75,7 +75,7 @@ class Cliente extends AT_REST_Controller//REST_Controller
   public function cantidad_get(){
     $this->load->model('Cliente_m');
     $response = $this->Cliente_m->cant_clientes();
-    $this->response($response,200);
+    $this->response(array('cantidad'=>$response),200);
   }
 
 }
