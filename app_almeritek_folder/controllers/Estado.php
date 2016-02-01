@@ -68,8 +68,8 @@ class Estado extends AT_REST_Controller
     $this->load->model('Estado_m');
     $res=$this->Estado_m->get_estado_by_id($id);
     $this->response($res);
-
   }
+  
 
 }
  ?>

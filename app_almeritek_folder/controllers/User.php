@@ -92,5 +92,11 @@ class User extends AT_REST_Controller
     }
   }
 
+  public function cantidad_get(){
+    $this->load->model('User_m');
+    $response = $this->User_m->cant_users();
+    $this->response(array('cantidad'=>$response),200);
+  }
+
 }
  ?>

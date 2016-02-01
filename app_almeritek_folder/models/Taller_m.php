@@ -93,5 +93,12 @@ class Taller_m extends CI_Model
     }
   }
 
+  public function cant_talleres(){
+    $this->db->select('*');
+    $this->db->from('taller t');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
 }
  ?>

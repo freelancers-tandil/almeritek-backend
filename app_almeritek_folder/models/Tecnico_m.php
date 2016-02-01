@@ -90,5 +90,12 @@ class Tecnico_m extends CI_Model
     }
   }
 
+  public function cant_tecnicos(){
+    $this->db->select('*');
+    $this->db->from('tecnico c');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
 }
  ?>

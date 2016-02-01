@@ -138,8 +138,7 @@ class Cliente_m extends CI_Model
     $this->db->select('*');
     $this->db->from('cliente c');
     $query=$this->db->get();
-    return $query->num_rows();
-    
+    return $query->num_rows();  
   }
 
 

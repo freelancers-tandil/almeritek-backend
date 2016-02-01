@@ -68,7 +68,12 @@ class Accesorio extends AT_REST_Controller
     $this->load->model('Accesorio_m');
     $res=$this->Accesorio_m->get_accesorio_by_id($id);
     $this->response($res);
+  }
 
+  public function cantidad_get(){
+    $this->load->model('Accesorio_m');
+    $response = $this->Accesorio_m->cant_accesorios();
+    $this->response(array('cantidad'=>$response),200);
   }
 
 }

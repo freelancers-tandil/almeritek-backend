@@ -97,5 +97,12 @@ class Pedido_m extends CI_Model
     }
   }
 
+  public function cant_pedidos(){
+    $this->db->select('*');
+    $this->db->from('pedido p');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
 }
  ?>

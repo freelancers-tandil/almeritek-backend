@@ -100,5 +100,12 @@ class Accesorio_m extends CI_Model
     }
   }
 
+  public function cant_accesorios(){
+    $this->db->select('*');
+    $this->db->from('accesorio a');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
 }
  ?>

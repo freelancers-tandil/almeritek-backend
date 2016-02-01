@@ -69,7 +69,12 @@ public function index_get()
   $this->load->model('Taller_m');
   $res=$this->Taller_m->get_taller_by_id($id);
   $this->response($res);
+}
 
+public function cantidad_get(){
+  $this->load->model('Taller_m');
+  $response = $this->Taller_m->cant_talleres();
+  $this->response(array('cantidad'=>$response),200);
 }
 
 

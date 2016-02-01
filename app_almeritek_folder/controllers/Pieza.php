@@ -68,7 +68,12 @@ class Pieza extends AT_REST_Controller
     $this->load->model('Pieza_m');
     $res=$this->Pieza_m->get_pieza_by_id($id);
     $this->response($res);
+  }
 
+  public function cantidad_get(){
+    $this->load->model('Pieza_m');
+    $response = $this->Pieza_m->cant_piezas();
+    $this->response(array('cantidad'=>$response),200);
   }
 
 }

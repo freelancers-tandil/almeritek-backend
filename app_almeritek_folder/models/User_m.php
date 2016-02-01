@@ -134,9 +134,14 @@ class User_m extends CI_Model
       if ( is_array($login) && count($login) == 1 ) {
           return $login[0];
       }
-
       return false;
+    }
 
+    public function cant_users(){
+      $this->db->select('*');
+      $this->db->from('user u');
+      $query=$this->db->get();
+      return $query->num_rows();
     }
 }
  ?>

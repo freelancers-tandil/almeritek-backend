@@ -184,5 +184,20 @@ class Ticket_m extends CI_Model
     }
   }
 
+  public function cant_tickets(){
+    $this->db->select('*');
+    $this->db->from('ticket t');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
+  public function ticket_not_estado($estado){
+    $this->db->select('*');
+    $this->db->from('ticket t');
+    $this->db->where('estado !=',$estado);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
 }
  ?>

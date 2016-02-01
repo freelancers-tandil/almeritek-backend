@@ -68,7 +68,12 @@ class Pedido extends AT_REST_Controller
     $this->load->model('Pedido_m');
     $res=$this->Pedido_m->get_pedido_by_id($id);
     $this->response($res);
+  }
 
+  public function cantidad_get(){
+    $this->load->model('Pedido_m');
+    $response = $this->Pedido_m->cant_pedidos();
+    $this->response(array('cantidad'=>$response),200);
   }
 
 }

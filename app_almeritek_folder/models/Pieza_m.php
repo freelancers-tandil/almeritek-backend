@@ -108,5 +108,12 @@ class Pieza_m extends CI_Model
     }
   }
 
+  public function cant_piezas(){
+    $this->db->select('*');
+    $this->db->from('pieza p');
+    $query=$this->db->get();
+    return $query->num_rows();
+  }
+
 }
  ?>

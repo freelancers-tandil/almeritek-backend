@@ -69,7 +69,12 @@ public function index_get()
   $this->load->model('Tecnico_m');
   $res=$this->Tecnico_m->get_tecnico_by_id($id);
   $this->response($res);
+}
 
+public function cantidad_get(){
+  $this->load->model('Tecnico_m');
+  $response = $this->Tecnico_m->cant_tecnicos();
+  $this->response(array('cantidad'=>$response),200);
 }
 
 
