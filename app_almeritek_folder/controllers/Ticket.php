@@ -18,7 +18,7 @@ class Ticket extends AT_REST_Controller
     $this->load->model('Ticket_m');
     $add_t= $this->Ticket_m->add_ticket($ticket);
 
-    if($add_t)
+    if(!isset($add_t['error']))
     {
       $this->response($add_t,200);
     }
@@ -30,13 +30,15 @@ class Ticket extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Ticket_m');
-    $ticket = json_decode($this->input->input_stream('json'));
+    $ticket= (object) $this->delete();
+    // $ticket = json_decode($this->input->input_stream('json'));
     $delete = $this->Ticket_m->delete_ticket($ticket->id);
-    if($delete){
+
+    if(isset($delete['error'])){
       $this->response($delete,200);
     }
     else{
-      $this->response($delete,400);
+      $this->response($delete['error'],400);
     }
   }
 

@@ -61,10 +61,12 @@ class Cliente extends AT_REST_Controller//REST_Controller
       $this->response(array("added"=>$added,"not_added"=>$not_added),200);
     }
   }
-
-  public function index_get($id){
-      $this->load->model('Cliente_m');
-  }
+  // 
+  // public function cliente_get($id){
+  //     $this->load->model('Cliente_m');
+  //     $data = $this->Cliente_m->get_cliente($id);
+  //     $this->response
+  // }
 
 
 

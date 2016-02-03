@@ -8,8 +8,11 @@ class Ticket_m extends CI_Model
   public function add_ticket($ticket)
   {
     $resp = $this->db->insert('ticket', $ticket);
-    if($data['error']=$this->db->error()){
-      return $data;
+
+    if(!$resp){
+      return array(
+          'error' => $this->db->error()
+      );
     }
     else{
       $this->db->select('*');
@@ -36,9 +39,24 @@ class Ticket_m extends CI_Model
     if($this->check_exists($id)){
       $this->db->where('id',$id);
       $this->db->delete('ticket');
-      return !$this->check_exists($id);
+      if ($this->check_exists($id)){
+        return array('error' => $this->db->error());
+      }
+      return true;
+    } else {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del ticket no existe'
+      );
+      return array('error' => $error);
     }
-    return false;
+
+    // if($this->check_exists($id)){
+    //   $this->db->where('id',$id);
+    //   $this->db->delete('ticket');
+    //   return !$this->check_exists($id);
+    // }
+    // return false;
   }
 
   public function get_tickets(){
