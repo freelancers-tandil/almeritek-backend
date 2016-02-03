@@ -10,6 +10,7 @@ class Cliente extends AT_REST_Controller//REST_Controller
   function __construct()
   {
     parent::__construct();
+
   }
 
 
@@ -102,6 +103,15 @@ class Cliente extends AT_REST_Controller//REST_Controller
       $this->response($delete,400);
     }
   }
+
+  public function paginado_get($page, $limit){
+    $this->load->model('Cliente_m');
+    $result=($page-1)*$limit;
+    $data['results'] = $this->Cliente_m->
+        fetch_clients($limit, $result);
+    $this->response($data['results'],200);
+  }
+
 
 }
 
