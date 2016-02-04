@@ -30,6 +30,7 @@ class Cliente extends AT_REST_Controller//REST_Controller
 
   }
 
+
   public function list_get(){
     //Calls method get_clientes of the model Cliente_m and lists all the client
     $this->load->model('Cliente_m');
@@ -61,19 +62,19 @@ class Cliente extends AT_REST_Controller//REST_Controller
       $this->response(array("added"=>$added,"not_added"=>$not_added),200);
     }
   }
-  // 
-  // public function cliente_get($id){
-  //     $this->load->model('Cliente_m');
-  //     $data = $this->Cliente_m->get_cliente($id);
-  //     $this->response
-  // }
-
-
 
   public function search_get($data){
     $this->load->model('Cliente_m');
     $response = $this->Cliente_m->get_cliente($data);
     $this->response($response,200);
+  }
+
+
+  public function cliente_get($id){
+      $this->load->model('Cliente_m');
+      // $cliente = json_decode($this->input->input_stream('json'));
+      $data = $this->Cliente_m->get_client($id);
+      $this->response($data,200);
   }
 
   public function cantidad_get(){

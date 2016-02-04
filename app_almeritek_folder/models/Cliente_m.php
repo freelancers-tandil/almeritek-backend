@@ -48,6 +48,17 @@ class Cliente_m extends CI_Model
     return false;
   }
 
+  public function get_client($id){
+    $this->db->select('*');
+    $this->db->from('cliente c');
+    $this->db->where('id',$id);
+    $query=$this->db->get();
+    if($query->num_rows()>0)
+    {
+      return $query->result()[0];
+    }
+
+  }
 
   function get_cliente($cliente){
 
@@ -163,9 +174,6 @@ class Cliente_m extends CI_Model
     return $query->num_rows();
   }
 
-  // public function record_count(){
-  //   return $this->db->count_all('cliente');
-  // }
 
   public function fetch_clients($limit, $start){
     $this->db->limit($limit, $start);
