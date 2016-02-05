@@ -50,13 +50,6 @@ class Ticket_m extends CI_Model
       );
       return array('error' => $error);
     }
-
-    // if($this->check_exists($id)){
-    //   $this->db->where('id',$id);
-    //   $this->db->delete('ticket');
-    //   return !$this->check_exists($id);
-    // }
-    // return false;
   }
 
   public function get_tickets(){
@@ -215,6 +208,18 @@ class Ticket_m extends CI_Model
     $this->db->where('estado !=',$estado);
     $result = $this->db->get();
     return $result->num_rows();
+  }
+
+  public function taller_ticket(){
+    $this->db->select('t.taller, t.num_ticket, taller.id');
+    $this->db->from('ticket t');
+    $this->db->join('taller', 'taller.id = t.taller');
+    $query= $this->db->get();
+    if($query->num_rows()>=0)
+    {
+      return $query->result();
+    }
+
   }
 
 }
