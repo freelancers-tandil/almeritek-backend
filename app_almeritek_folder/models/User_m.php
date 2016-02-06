@@ -58,10 +58,15 @@ class User_m extends CI_Model
 
     function add_user($user)
     {
-      $this->db->insert('user', $user);
-      if($data['error'] = $this->db->error())
-        return $data;
-      return false;
+      $db_response = $this->db->insert('user', $user);
+      if ($db_response){
+        $this->db->select('*');
+        $this->db->from('user u');
+        $this->db->where('id',$this->db->insert_id());
+        return $this->db->get()->result();
+      } else {
+        return array('error'=>$this->db->error());
+      }
     }
 
     function check_exists($username){
@@ -80,9 +85,17 @@ class User_m extends CI_Model
       if($this->check_exists($username)){
         $this->db->where('username', $username);
         $this->db->delete('user');
-        return !$this->check_exists($username);
+        if ($this->check_exists($username)){
+          return array('error' => $this->db->error());
+        }
+        return true;
+      } else {
+        $error = array(
+          'code'=>'50001',
+          'message'=>'El id del cliente no existe'
+        );
+        return array('error' => $error);
       }
-      return false;
     }
 
     function update_user($user)

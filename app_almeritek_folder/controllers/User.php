@@ -46,12 +46,9 @@ class User extends AT_REST_Controller
     $data2 = (array) $data;
     $this->load->model('User_m');
     $error= $this->User_m->add_user($data2);
-    if($error)
-    {
+    if (!isset($error['error'])){
       $this->response($error,200);
-    }
-    else
-    {
+    } else {
       $this->response($error,400);
     }
   }
@@ -59,9 +56,9 @@ class User extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('User_m');
-    $user = json_decode($this->input->input_stream('json'));
+    $user = (object) $this->delete();
     $delete = $this->User_m->delete_user($user->username);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
     }
     else{

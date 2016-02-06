@@ -111,7 +111,7 @@ class Cliente_m extends CI_Model
     } else {
       $error = array(
         'code'=>'50001',
-        'message'=>'El id del cliente no  existe'
+        'message'=>'El id del cliente no existe'
       );
       return array('error' => $error);
     }
