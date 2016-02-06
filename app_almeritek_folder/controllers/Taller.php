@@ -31,12 +31,11 @@ class Taller extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Taller_m');
-    $taller = json_decode($this->input->input_stream('json'));
+    $taller = (object) $this->delete();
     $delete = $this->Taller_m->delete_taller($taller->id);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
-    }
-    else{
+    } else{
       $this->response($delete,400);
     }
   }

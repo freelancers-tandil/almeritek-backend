@@ -31,12 +31,11 @@ class Tecnico extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Tecnico_m');
-    $tecnico = json_decode($this->input->input_stream('json'));
+    $tecnico = (object) $this->delete();
     $delete = $this->Tecnico_m->delete_tecnico($tecnico->id);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
-    }
-    else{
+    } else{
       $this->response($delete,400);
     }
   }

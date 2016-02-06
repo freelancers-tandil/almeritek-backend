@@ -30,12 +30,11 @@ class Pieza extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Pieza_m');
-    $pieza = json_decode($this->input->input_stream('json'));
+    $pieza = (object) $this->delete();
     $delete = $this->Pieza_m->delete_pieza($pieza->id);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
-    }
-    else{
+    } else{
       $this->response($delete,400);
     }
   }

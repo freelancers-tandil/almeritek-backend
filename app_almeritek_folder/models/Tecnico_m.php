@@ -35,9 +35,17 @@ class Tecnico_m extends CI_Model
     if($this->check_exists($id)){
       $this->db->where('id',$id);
       $this->db->delete('tecnico');
-      return !$this->check_exists($id);
+      if ($this->check_exists($id)){
+        return array('error' => $this->db->error());
+      }
+      return true;
+    } else {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del tecnico no existe'
+      );
+      return array('error' => $error);
     }
-    return false;
   }
 
   public function get_tecnicos(){

@@ -30,12 +30,11 @@ class Pedido extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Pedido_m');
-    $pedido = json_decode($this->input->input_stream('json'));
+    $pedido = (object) $this->delete();
     $delete = $this->Pedido_m->delete_pedido($pedido->id);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
-    }
-    else{
+    } else{
       $this->response($delete,400);
     }
   }

@@ -36,9 +36,17 @@ class Pedido_m extends CI_Model
     if($this->check_exists($id)){
       $this->db->where('id',$id);
       $this->db->delete('pedido');
-      return !$this->check_exists($id);
+      if ($this->check_exists($id)){
+        return array('error' => $this->db->error());
+      }
+      return true;
+    } else {
+      $error = array(
+        'code'=>'50001',
+        'message'=>'El id del pedido no existe'
+      );
+      return array('error' => $error);
     }
-    return false;
   }
 
   public function get_pedidos(){

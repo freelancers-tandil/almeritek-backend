@@ -30,12 +30,11 @@ class Accesorio extends AT_REST_Controller
   public function index_delete()
   {
     $this->load->model('Accesorio_m');
-    $accesorio = json_decode($this->input->input_stream('json'));
+    $accesorio = (object) $this->delete();
     $delete = $this->Accesorio_m->delete_accesorio($accesorio->id);
-    if($delete){
+    if(!isset($delete['error'])){
       $this->response($delete,200);
-    }
-    else{
+    } else{
       $this->response($delete,400);
     }
   }

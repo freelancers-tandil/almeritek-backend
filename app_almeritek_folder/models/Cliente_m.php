@@ -108,14 +108,13 @@ class Cliente_m extends CI_Model
         return array('error' => $this->db->error());
       }
       return true;
-    } else {
-      $error = array(
-        'code'=>'50001',
-        'message'=>'El id del cliente no existe'
-      );
-      return array('error' => $error);
-    }
-
+      } else {
+        $error = array(
+          'code'=>'50001',
+          'message'=>'El id del cliente no existe'
+        );
+        return array('error' => $error);
+      }
   }
 
   public function update_cliente($cliente)

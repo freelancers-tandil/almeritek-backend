@@ -31,14 +31,12 @@ class Ticket extends AT_REST_Controller
   {
     $this->load->model('Ticket_m');
     $ticket= (object) $this->delete();
-    // $ticket = json_decode($this->input->input_stream('json'));
     $delete = $this->Ticket_m->delete_ticket($ticket->id);
-
     if(isset($delete['error'])){
       $this->response($delete,200);
     }
     else{
-      $this->response($delete['error'],400);
+      $this->response($delete,400);
     }
   }
 
