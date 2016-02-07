@@ -118,14 +118,14 @@ class Ticket_m extends CI_Model
         $data['costo_reparacion']= $ticket->costo_reparacion;
       }
       if(isset($ticket->tecnico)){
-        $this->load->model('Tecnico_m');
-        if($this->Tecnico_m->check_exists($ticket->tecnico)){
+        $this->load->model('User_m');
+        if($this->User_m->check_exists_id($ticket->tecnico)){
           $data['tecnico']= $ticket->tecnico;
         }
         else{
           $error = array(
             'code'=>'55002',
-            'message'=>'El tecnico no existe'
+            'message'=>'El usuario no existe'
           );
           return  array( 'error'=>$error);
         }
@@ -135,17 +135,7 @@ class Ticket_m extends CI_Model
       }
 
       if(isset($ticket->estado)){
-        $this->load->model('Estado_m');
-        if($this->Estado_m->check_exists($ticket->estado)){
           $data['estado']= $ticket->estado;
-        }
-        else{
-          $error = array(
-            'code'=>'55003',
-            'message'=>'El estado no existe'
-          );
-          return  array( 'error'=>$error);
-        }
       }
       if(isset($ticket->beneficio_tecnico)){
         $data ['beneficio_tecnico'] = $ticket->beneficio_tecnico;
@@ -189,7 +179,7 @@ class Ticket_m extends CI_Model
     $this->db->from('ticket t');
     $this->db->where('id',$id);
     $query = $this->db->get();
-    if($query->num_rows()>=0)
+    if($query->num_rows()>0)
     {
       return $query->result();
     }

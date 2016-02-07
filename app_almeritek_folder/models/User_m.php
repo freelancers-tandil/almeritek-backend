@@ -80,6 +80,18 @@ class User_m extends CI_Model
       return false;
     }
 
+
+    function check_exists_id($id){
+      $this->db->select('id');
+      $this->db->from('user u');
+      $this->db->where('id', $id);
+      $res=$this->db->get()->result();
+      if($res){
+        return $res;
+      }
+      return false;
+    }
+    
     function delete_user($username)
     {
       if($this->check_exists($username)){
