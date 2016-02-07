@@ -83,10 +83,11 @@ class Ticket extends AT_REST_Controller
     $this->response(array('cantidad'=>$response),200);
   }
 
-  public function tallerTicket_get(){
+  public function tickets_cliente_get(){
     $this->load->model('Ticket_m');
     $this->load->model('Taller_m');
-    $response=$this->Ticket_m->taller_ticket();
+    $id = json_decode($this->get('json'));
+    $response=$this->Ticket_m->tickets_cliente($id);
     $this->response($response);//array('cantidad'=>$response),200);
   }
 
