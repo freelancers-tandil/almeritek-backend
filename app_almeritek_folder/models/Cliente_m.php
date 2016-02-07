@@ -104,54 +104,76 @@ class Cliente_m extends CI_Model
       $this->db->select('*');
       $this->db->from('cliente c');
 
-      if (isset($cliente->nombre)){
-        $this->db->like('nombre',$cliente->nombre);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
+      if (isset($cliente->tipo_cliente)){
+        $this->db->where('tipo_cliente',$cliente->tipo_cliente);
       }
-      if (isset($cliente->apellido_1)){
-        $this->db->or_like('apellido_1',$cliente->apellido_1);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
+
+      $dato_array = explode(" ",$cliente->nombre);
+      $size = sizeof($dato_array);
+      if ($size>2){
+
+        for($i=0;$i<$size-2;$i++){
+          $nombre_array[$i] = $dato_array[$i];
         }
-      }
-      if (isset($cliente->apellido_2)){
-        $this->db->or_like('apellido_2',$cliente->apellido_2);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
+
+        $nombre = implode(" ", $nombre_array);
+        $apellido_1 = $dato_array[$size-2];
+        $apellido_2 = $dato_array[$size-1];
+        $this->db->like('nombre',$nombre);
+        $this->db->like('apellido_1',$apellido_1);
+        $this->db->like('apellido_2',$apellido_2);
+      } else if($size > 1){
+        $nombre=$dato_array[0];
+        $apellido_1 = $dato_array[1];
+        $apellido_2 = $dato_array[1];
+        $this->db->like('nombre',$nombre);
+        $this->db->like('apellido_1',$apellido_1);
+        $this->db->or_like('apellido_1',$nombre);
+        $this->db->like('apellido_2',$apellido_1);
+        $this->db->or_like('nombre',$nombre);
+        $this->db->like('apellido_2',$apellido_1);
+
+
+      } else {
+
+        if (!isset($nombre) && isset($cliente->nombre)){
+          $nombre = $cliente->nombre;
         }
+        if (isset($nombre)){
+          $this->db->or_like('nombre',$nombre);
+        }
+
+        if (!isset($apellido_1) && isset($cliente->apellido_1)){
+          $apellido_1 = $cliente->apellido_1;
+        }
+        if (isset($apellido_1)){
+          $this->db->or_like('apellido_1',$apellido_1);
+        }
+
+        if (!isset($apellido_2) && isset($cliente->apellido_2)){
+          $apellido_2 = $cliente->apellido_2;
+        }
+        if (isset($apellido_2)){
+          $this->db->or_like('apellido_2',$apellido_2);
+        }
+
       }
+
       if (isset($cliente->identity_number)){
         $this->db->or_like('identity_number',$cliente->identity_number);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
       }
       if (isset($cliente->telefono_1)){
         $this->db->or_like('telefono_1',$cliente->telefono_1);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
       }
       if (isset($cliente->telefono_2)){
         $this->db->or_like('telefono_2',$cliente->telefono_2);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
       }
       if (isset($cliente->direccion)){
         $this->db->or_like('direccion',$cliente->direccion);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
       }
 
       if (isset($cliente->codigo_postal)){
         $this->db->or_like('codigo_postal',$cliente->codigo_postal);
-        if (isset($cliente->tipo_cliente)){
-          $this->db->where('tipo_cliente',$cliente->tipo_cliente);
-        }
       }
 
       if (isset($cantidad) && isset($page)){
