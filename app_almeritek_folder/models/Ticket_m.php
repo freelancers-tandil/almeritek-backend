@@ -200,18 +200,5 @@ class Ticket_m extends CI_Model
     return $result->num_rows();
   }
 
-  public function tickets_cliente($id){
-    $this->db->select('t.id, t.num_ticket, t.fecha, t.taller, t.equipo, t.modelo, t.marca, t.imei, t.cliente, t.costo_reparacion, t.tecnico, t.avisado, t.estado');
-    $this->db->from('ticket t');
-    $this->db->join('cliente', 'cliente.$id = t.cliente');
-    $query = $this->db->get();
-    echo $query;
-    if($query->num_rows()>=0)
-    {
-      return $query->result();
-    }
-
-  }
-
 }
  ?>
