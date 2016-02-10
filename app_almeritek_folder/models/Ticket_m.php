@@ -146,19 +146,19 @@ class Ticket_m extends CI_Model
       if(isset($ticket->fecha_cierre)){
         $data ['fecha_cierre'] = $ticket->fecha_cierre;
       }
-      if(isset($ticket->pedido)){
-        $this->load->model('Pedido_m');
-        if($this->Pedido_m->check_exists($ticket->pedido)){
-          $data['pedido']= $ticket->pedido;
-        }
-        else{
-          $error = array(
-            'code'=>'55004',
-            'message'=>'El pedido no existe'
-          );
-          return  array( 'error'=>$error);
-        }
-      }
+      // if(isset($ticket->pedido)){
+      //   $this->load->model('Pedido_m');
+      //   if($this->Pedido_m->check_exists($ticket->pedido)){
+      //     $data['pedido']= $ticket->pedido;
+      //   }
+      //   else{
+      //     $error = array(
+      //       'code'=>'55004',
+      //       'message'=>'El pedido no existe'
+      //     );
+      //     return  array( 'error'=>$error);
+      //   }
+      // }
       $this->db->where('id',$ticket->id);
       $this->db->update('ticket',$data);
       return true;

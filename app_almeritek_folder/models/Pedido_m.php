@@ -79,6 +79,19 @@ class Pedido_m extends CI_Model
       if(isset($pedido->precio)){
         $data['precio']=$pedido->precio;
       }
+      if(isset($pedido->ticket)){
+        $this->load->model('ticket_m');
+        if($this->Ticket_m->check_exists($pedido->ticket)){
+          $data['ticket']= $pedido->ticket;
+        }
+        else{
+          $error = array(
+            'code'=>'55004',
+            'message'=>'El ticket no existe'
+          );
+          return  array( 'error'=>$error);
+        }
+      }
       $this->db->where('id',$pedido->id);
       $this->db->update('pedido',$data);
       return true;
