@@ -54,8 +54,11 @@ class Ticket_m extends CI_Model
 
   public function get_tickets(){
 
-    $this->db->select('*');
+    $this->db->select('t.*, c.nombre, c.apellido_1, ta.nombre_taller, u.nombre_usuario, u.apellido_usuario');
     $this->db->from('ticket t');
+    $this->db->join('cliente c', 'c.id = t.cliente');
+    $this->db->join('taller ta', 'ta.id = t.taller');
+    $this->db->join('user u', 'u.id = t.tecnico');
 
     $query=$this->db->get();
     if($query->num_rows()>0)

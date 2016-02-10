@@ -279,18 +279,33 @@ class Cliente_m extends CI_Model
 
   }
 
+  /*Devuelve los tickets de un cliente, con el nombre del cliente, el nombre del usuario y el taller*/
   public function tickets_cliente($id){
-    $this->db->select(' t.id, t.num_ticket, t.fecha, t.taller, t.equipo, t.modelo, t.marca, t.imei, t.cliente, t.costo_reparacion, t.tecnico, t.avisado, t.estado, c.nombre, c.apellido_1');
+    $this->db->select(' t.id, t.num_ticket, t.fecha, t.taller, t.equipo, t.modelo, t.marca, t.imei, t.cliente, t.costo_reparacion, t.tecnico, t.avisado, t.estado, c.nombre, c.apellido_1, ta.nombre AS nombre_taller, u.nombre AS nombre_usuario, u.apellido AS apellido_usuario');
     $this->db->from('ticket t');
     $this->db->join('cliente c', 'c.id = t.cliente');
+    $this->db->join('taller ta', 't.taller = ta.id');
+    $this->db->join('user u', 't.tecnico = u.id');
     $this->db->where('c.id', $id);
     $query = $this->db->get();
     if($query->num_rows()>0)
     {
       return $query->result();
     }
-
   }
+
+  public function cant_tickets_cliente($id){
+    $this->db->select('');
+    $this->db->from('ticket t');
+    $this->db->join('cliente c', 'c.id = t.cliente');
+    $this->db->where('c.id', $id);
+    $query = $this->db->get();
+    if($query->num_rows()>0)
+    {
+      return $query->result();//count_all_results();//
+    }
+  }
+
 
 
 }

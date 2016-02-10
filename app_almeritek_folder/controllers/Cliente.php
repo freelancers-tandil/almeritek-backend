@@ -128,6 +128,12 @@ class Cliente extends AT_REST_Controller//REST_Controller
     $this->response($response, 200);
   }
 
+  public function cant_tickets_cliente_get($id){
+    $this->load->model('Cliente_m');
+    $response=$this->Cliente_m->cant_tickets_cliente($id);
+    $this->response($response, 200);
+  }
+
 
 }
 

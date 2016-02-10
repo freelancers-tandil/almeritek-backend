@@ -66,8 +66,8 @@ class Taller_m extends CI_Model
     if($this->check_exists($taller->id)){
       $data = array(
       );
-      if(isset($taller->nombre)){
-        $data['nombre']=$taller->nombre;
+      if(isset($taller->nombre_taller)){
+        $data['nombre_taller']=$taller->nombre_taller;
       }
       if(isset($taller->direccion)){
         $data['direccion']=$taller->direccion;
