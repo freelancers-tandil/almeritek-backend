@@ -162,7 +162,7 @@ class Ticket_m extends CI_Model
 
   public function get_ticket_by_id($id)
   {
-    $this->db->select('*');
+    $this->db->select('t.*');
     $this->db->from('ticket t');
     $this->db->where('id',$id);
     $query = $this->db->get();

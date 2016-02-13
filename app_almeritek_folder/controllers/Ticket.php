@@ -62,12 +62,11 @@ class Ticket extends AT_REST_Controller
   }
 
 
-  public function index_get()
+  public function ticket_get($id)
   {
-    $id=$this->get('id');
     $this->load->model('Ticket_m');
     $res=$this->Ticket_m->get_ticket_by_id($id);
-    $this->response($res);
+    $this->response($res, 200);
   }
 
   public function cantidad_get(){
