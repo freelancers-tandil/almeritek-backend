@@ -61,6 +61,20 @@ class Pedido_m extends CI_Model
     }
   }
 
+  public function get_pedidos_for_logged_user(){
+
+    $this->db->select('*');
+    $this->db->from('pedido p');
+    $this->db->join('ticket t', 'p.ticket = t.id');
+    $this->db->where('t.tecnico',$this->session->userdata('user_id'));
+
+    $query=$this->db->get();
+    if($query->num_rows()>0)
+    {
+      return $query->result();
+    }
+  }
+
   public function update_pedido($pedido)
   {
     $pedido = (object) $pedido;

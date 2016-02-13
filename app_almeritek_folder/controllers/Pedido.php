@@ -47,6 +47,14 @@ class Pedido extends AT_REST_Controller
 
   }
 
+  public function list_logged_get()
+  {
+    $this->load->model('Pedido_m');
+    $x=$this->Pedido_m->get_pedidos_for_logged_user();
+    $this->response($x,200);
+
+  }
+
   public function index_put()
   {
     $this->load->model('Pedido_m');
