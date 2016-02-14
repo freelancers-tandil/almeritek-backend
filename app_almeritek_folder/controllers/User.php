@@ -17,11 +17,11 @@ class User extends AT_REST_Controller
     $this->load->model('User_m');
     $data = json_decode($this->input->input_stream('json'));
     $user = $this->User_m->validate_user($data->username,$data->password);
-    if($user){
-      $this->response($user,200);
+    if(!isset($user['error'])){
+      $this->response($user['user'],200);
     }
     else{
-      $this->response(array(),401);
+      $this->response($user,401);
     }
 
   }

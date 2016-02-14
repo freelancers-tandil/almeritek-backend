@@ -22,10 +22,14 @@ class User_m extends CI_Model
           $this->details = $login[0];
           // Call set_session to set the user's session vars via CodeIgniter
           $this->set_session();
-          return $login[0];
+          return array('user'=>$login[0]);
+      } else {
+        $error = array('code'=>'40001',
+                       'message' => "Nombre de usuario o contraseña incorrectos."
+                       );
+        return array('error'=>(object) $error);
       }
 
-      return false;
   }
 
   function set_session() {
@@ -91,7 +95,7 @@ class User_m extends CI_Model
       }
       return false;
     }
-    
+
     function delete_user($username)
     {
       if($this->check_exists($username)){
