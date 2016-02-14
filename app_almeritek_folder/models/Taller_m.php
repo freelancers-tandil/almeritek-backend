@@ -41,7 +41,7 @@ class Taller_m extends CI_Model
       return true;
     } else {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50301',
         'message'=>'El id del taller no existe'
       );
       return array('error' => $error);
@@ -82,7 +82,7 @@ class Taller_m extends CI_Model
     else
     {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50301',
         'message'=>'El id del taller no existe'
       );
       return array('error' => $error);

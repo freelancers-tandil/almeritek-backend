@@ -42,7 +42,7 @@ class Pieza_m extends CI_Model
       return true;
     } else {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50201',
         'message'=>'El id de la pieza no existe'
       );
       return array('error' => $error);
@@ -83,7 +83,7 @@ class Pieza_m extends CI_Model
         }
         else{
           $error =array(
-            'code'=>'54001',
+            'code'=>'50102',
             'message'=>'El pedido no existe'
           );
           return  array( 'error'=>$error);
@@ -97,7 +97,7 @@ class Pieza_m extends CI_Model
     else
     {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50201',
         'message'=>'El id de la pieza no existe'
       );
       return array('error' => $error);

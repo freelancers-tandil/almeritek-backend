@@ -45,7 +45,7 @@ class Ticket_m extends CI_Model
       return true;
     } else {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50501',
         'message'=>'El id del ticket no existe'
       );
       return array('error' => $error);
@@ -86,7 +86,7 @@ class Ticket_m extends CI_Model
         }
         else{
           $error = array(
-            'code'=>'55000',
+            'code'=>'50302',
             'message'=>'El taller no existe'
           );
           return  array( 'error'=>$error);
@@ -111,7 +111,7 @@ class Ticket_m extends CI_Model
         }
         else{
           $error = array(
-            'code'=>'55001',
+            'code'=>'50002',
             'message'=>'El cliente no existe'
           );
           return  array( 'error'=>$error);
@@ -127,7 +127,7 @@ class Ticket_m extends CI_Model
         }
         else{
           $error = array(
-            'code'=>'55002',
+            'code'=>'50602',
             'message'=>'El usuario no existe'
           );
           return  array( 'error'=>$error);
@@ -153,7 +153,7 @@ class Ticket_m extends CI_Model
     else
     {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50501',
         'message'=>'El id del ticket no existe'
       );
       return array('error' => $error);

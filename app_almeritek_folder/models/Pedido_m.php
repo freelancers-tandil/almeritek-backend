@@ -42,7 +42,7 @@ class Pedido_m extends CI_Model
       return true;
     } else {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50101',
         'message'=>'El id del pedido no existe'
       );
       return array('error' => $error);
@@ -100,7 +100,7 @@ class Pedido_m extends CI_Model
         }
         else{
           $error = array(
-            'code'=>'55004',
+            'code'=>'50502',
             'message'=>'El ticket no existe'
           );
           return  array( 'error'=>$error);
@@ -113,7 +113,7 @@ class Pedido_m extends CI_Model
     else
     {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50101',
         'message'=>'El id del pedido no existe'
       );
       return array('error' => $error);

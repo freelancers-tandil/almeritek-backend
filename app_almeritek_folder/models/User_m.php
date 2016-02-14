@@ -107,7 +107,7 @@ class User_m extends CI_Model
         return true;
       } else {
         $error = array(
-          'code'=>'50001',
+          'code'=>'50601',
           'message'=>'El id del usuario no existe'
         );
         return array('error' => $error);
@@ -145,7 +145,7 @@ class User_m extends CI_Model
       else
       {
           $error = array(
-            'code'=>'50000',
+            'code'=>'50603',
             'message'=>'El nombre de usuario no existe'
           );
           return array('error' => $error);

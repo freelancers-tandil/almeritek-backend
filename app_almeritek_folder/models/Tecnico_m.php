@@ -41,7 +41,7 @@ class Tecnico_m extends CI_Model
       return true;
     } else {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50401',
         'message'=>'El id del tecnico no existe'
       );
       return array('error' => $error);
@@ -79,7 +79,7 @@ class Tecnico_m extends CI_Model
     else
     {
       $error = array(
-        'code'=>'50001',
+        'code'=>'50401',
         'message'=>'El id del tecnico no existe'
       );
       return array('error' => $error);
