@@ -23,6 +23,7 @@ abstract class AT_REST_Controller extends REST_Controller
       if (null!==$this->session->userdata($var_name)){
         $roles=$this->session->userdata($var_name);
         // [S,S,S]
+        //echo var_dump($this->authorization);
         if (isset($this->authorization[$this->router->class][$this->router->method][$this->request->method]) &&
             (!empty($this->authorization[$this->router->class][$this->router->method][$this->request->method]))){
           $access=$this->authorization[$this->router->class][$this->router->method][$this->request->method];
@@ -69,13 +70,14 @@ abstract class AT_REST_Controller extends REST_Controller
               break;
             }
           }
-        } else if (!in_array($roles,$access)){
+        } else if (in_array($roles,$access)){
           $has_access=true;
         }
       }
       if ((!$has_access)&&
           ($this->config->item('authorization_enabled')) &&
-          (!$this->config->item('authorization_exceptions')[$this->router->class][$this->router->method][$this->request->method])){
+          (!isset($this->config->item('authorization_exceptions')[$this->router->class][$this->router->method][$this->request->method]) ||
+          (!$this->config->item('authorization_exceptions')[$this->router->class][$this->router->method][$this->request->method]))){
         $this->response([
                 $this->config->item('rest_status_field_name') => FALSE,
                 $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_unauthorized'),
