@@ -55,6 +55,16 @@ class Pedido extends AT_REST_Controller
 
   }
 
+  public function list_logged_for_ticket_get($id)
+  {
+    // $id=$this->get('id');
+    $this->load->model('Pedido_m');
+    $x=$this->Pedido_m->get_pedidos_for_ticket_for_logged_user($id);
+    $this->response($x,200);
+
+  }
+
+
   public function index_put()
   {
     $this->load->model('Pedido_m');
