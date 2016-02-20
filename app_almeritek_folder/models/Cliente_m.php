@@ -186,8 +186,6 @@ class Cliente_m extends CI_Model
         return array('cantidad' => $response->num_rows());
       }
 
-      //
-
   }
 
   public function delete_cliente($id)

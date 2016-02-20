@@ -187,5 +187,141 @@ class Ticket_m extends CI_Model
     return $result->num_rows();
   }
 
+  function get_tickets_search($ticket,$page=null,$cantidad=null){
+
+      $this->db->select('*');
+      $this->db->from('ticket t');
+
+      // if (isset($cliente->tipo_cliente)){
+      //   $this->db->where('tipo_cliente',$cliente->tipo_cliente);
+      // }
+
+      // $dato_array = explode(" ",$cliente->nombre);
+      // $size = sizeof($dato_array);
+      // if ($size>2){
+      //
+      //   for($i=0;$i<$size-2;$i++){
+      //     $nombre_array[$i] = $dato_array[$i];
+      //   }
+      //
+      //   $nombre = implode(" ", $nombre_array);
+      //   $apellido_1 = $dato_array[$size-2];
+      //   $apellido_2 = $dato_array[$size-1];
+      //   $this->db->like('nombre',$nombre);
+      //   $this->db->like('apellido_1',$apellido_1);
+      //   $this->db->like('apellido_2',$apellido_2);
+      // } else if($size > 1){
+      //   $nombre=$dato_array[0];
+      //   $apellido_1 = $dato_array[1];
+      //   $apellido_2 = $dato_array[1];
+      //   $this->db->like('nombre',$nombre);
+      //   $this->db->like('apellido_1',$apellido_1);
+      //   $this->db->or_like('apellido_1',$nombre);
+      //   $this->db->like('apellido_2',$apellido_1);
+      //   $this->db->or_like('nombre',$nombre);
+      //   $this->db->like('apellido_2',$apellido_1);
+      //
+      //
+      // } else {
+      //
+      //   if (!isset($nombre) && isset($cliente->nombre)){
+      //     $nombre = $cliente->nombre;
+      //   }
+      //   if (isset($nombre)){
+      //     $this->db->or_like('nombre',$nombre);
+      //   }
+      //
+      //   if (!isset($apellido_1) && isset($cliente->apellido_1)){
+      //     $apellido_1 = $cliente->apellido_1;
+      //   }
+      //   if (isset($apellido_1)){
+      //     $this->db->or_like('apellido_1',$apellido_1);
+      //   }
+      //
+      //   if (!isset($apellido_2) && isset($cliente->apellido_2)){
+      //     $apellido_2 = $cliente->apellido_2;
+      //   }
+      //   if (isset($apellido_2)){
+      //     $this->db->or_like('apellido_2',$apellido_2);
+      //   }
+      //
+      // }
+
+      if (isset($ticket->num_ticket)){
+        $this->db->or_like('num_ticket',$ticket->num_ticket);
+      }
+      if (isset($ticket->fecha)){
+        $this->db->or_like('fecha',$ticket->fecha);
+      }
+      if (isset($ticket->taller)){
+        $this->db->or_like('taller',$ticket->taller);
+      }
+      if (isset($ticket->equipo)){
+        $this->db->or_like('equipo',$ticket->equipo);
+      }
+
+      if (isset($ticket->modelo)){
+        $this->db->or_like('modelo',$ticket->modelo);
+      }
+
+      if (isset($ticket->marca)){
+        $this->db->or_like('marca',$ticket->marca);
+      }
+
+      if (isset($ticket->imei)){
+        $this->db->or_like('imei',$ticket->imei);
+      }
+
+      if (isset($ticket->cliente)){
+        $this->db->or_like('cliente',$ticket->cliente);
+      }
+
+      if (isset($ticket->costo_reparacion)){
+        $this->db->or_like('costo_reparacion',$ticket->costo_reparacion);
+      }
+
+      if (isset($ticket->tecnico)){
+        $this->db->or_like('tecnico',$ticket->tecnico);
+      }
+
+      if (isset($ticket->avisado)){
+        $this->db->or_like('avisado',$ticket->avisado);
+      }
+
+      if (isset($ticket->estado)){
+        $this->db->or_like('estado',$ticket->estado);
+      }
+
+      if (isset($ticket->observaciones)){
+        $this->db->or_like('observaciones',$ticket->observaciones);
+      }
+
+      if (isset($cantidad) && isset($page)){
+        $start=($page-1)*$cantidad;
+        $this->db->limit($cantidad, $start);
+        $response= $this->db->get();
+        return $response->result();
+      } else {
+        $response= $this->db->get();
+        return array('cantidad' => $response->num_rows());
+      }
+
+  }
+
+  public function fetch_tickets($limit, $start){
+    $this->db->limit($limit, $start);
+    $query = $this->db->get('ticket');
+
+    if($query->num_rows()>0){
+      foreach ($query->result() as $row) {
+        $data[]=$row;
+      }
+      return $data;
+    }
+    return false;
+
+  }
+
+
 }
  ?>
