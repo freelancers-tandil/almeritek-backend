@@ -109,7 +109,7 @@ class Pedido_m extends CI_Model
         $data['precio']=$pedido->precio;
       }
       if(isset($pedido->ticket)){
-        $this->load->model('ticket_m');
+        $this->load->model('Ticket_m');
         if($this->Ticket_m->check_exists($pedido->ticket)){
           $data['ticket']= $pedido->ticket;
         }
