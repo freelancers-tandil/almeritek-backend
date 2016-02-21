@@ -49,4 +49,8 @@ $config['authorization']['taller']['list']['*']=array('*');
 */
 $config['authorization']['user']['list']['*']=array('*');
 
+
+
+$config['authorization']['pedido']['list_logged']['*']=array('*');
+
  ?>
