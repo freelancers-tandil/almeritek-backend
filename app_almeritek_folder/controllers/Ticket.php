@@ -92,7 +92,7 @@ class Ticket extends AT_REST_Controller
   public function searchcantidad_get(){
     $this->load->model('Ticket_m');
     $data = (object) json_decode($this->get('json'));
-    $response = $this->Ticket_m->get_clientes_search($data);
+    $response = $this->Ticket_m->get_tickets_search($data);
     $this->response($response,200);
   }
 
