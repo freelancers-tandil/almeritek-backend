@@ -189,8 +189,70 @@ class Ticket_m extends CI_Model
 
   function get_tickets_search($ticket,$page=null,$cantidad=null){
 
-      $this->db->select('*');
+      $this->db->select('t.*,c.nombre AS nombre_cliente, c.apellido_1 AS apellido_1_cliente, c.apellido_2 AS apellido_2_cliente,u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, ta.nombre AS nombre_taller');
       $this->db->from('ticket t');
+      $this->db->join('cliente c', 't.cliente = c.id','left');
+      $this->db->join('user u', 't.tecnico = u.id','left');
+      $this->db->join('taller ta', 't.taller = ta.id','left');
+
+      $dato_array = explode(" ",$ticket->cliente);
+      $size = sizeof($dato_array);
+
+      if ($size>2){
+
+        for($i=0;$i<$size-2;$i++){
+          $nombre_array[$i] = $dato_array[$i];
+        }
+
+        $nombre = implode(" ", $nombre_array);
+        $apellido_1 = $dato_array[$size-2];
+        $apellido_2 = $dato_array[$size-1];
+        $this->db->like('c.nombre',$nombre);
+        $this->db->like('c.apellido_1',$apellido_1);
+        $this->db->like('c.apellido_2',$apellido_2);
+        $this->db->or_like('u.nombre',$nombre);
+        $this->db->like('c.apellido',$apellido_1." ".$apellido_2);
+        $this->db->or_like('u.nombre',$nombre." ".$apellido_1);
+        $this->db->like('u.apellido',$apellido_2);
+      } else if($size > 1) {
+        $nombre=$dato_array[0];
+        $apellido_1 = $dato_array[1];
+        $apellido_2 = $dato_array[1];
+        $this->db->like('c.nombre',$nombre);
+        $this->db->like('c.apellido_1',$apellido_1);
+        $this->db->or_like('c.apellido_1',$nombre);
+        $this->db->like('c.apellido_2',$apellido_1);
+        $this->db->or_like('c.nombre',$nombre);
+        $this->db->like('c.apellido_2',$apellido_1);
+        $this->db->or_like('u.nombre',$nombre);
+        $this->db->like('u.apellido',$apellido_1);
+      } else {
+
+        if (!isset($nombre) && isset($ticket->cliente)){
+          $nombre = $ticket->cliente;
+        }
+        if (isset($nombre)){
+          $this->db->like('c.nombre',$nombre);
+          $this->db->or_like('u.nombre',$nombre);
+        }
+
+        if (!isset($apellido_1) && isset($ticket->cliente)){
+          $apellido_1 = $ticket->cliente;
+        }
+        if (isset($apellido_1)){
+          $this->db->or_like('c.apellido_1',$apellido_1);
+          $this->db->or_like('u.apellido',$apellido_1);
+        }
+
+        if (!isset($apellido_2) && isset($ticket->cliente)){
+          $apellido_2 = $ticket->cliente;
+        }
+        if (isset($apellido_2)){
+          $this->db->or_like('c.apellido_2',$apellido_2);
+          $this->db->or_like('u.apellido',$apellido_2);
+        }
+
+      }
 
 
       if (isset($ticket->num_ticket)){
@@ -200,7 +262,7 @@ class Ticket_m extends CI_Model
         $this->db->or_like('fecha',$ticket->fecha);
       }
       if (isset($ticket->taller)){
-        $this->db->or_like('taller',$ticket->taller);
+        $this->db->or_like('ta.nombre',$ticket->taller);
       }
       if (isset($ticket->equipo)){
         $this->db->or_like('equipo',$ticket->equipo);
@@ -216,10 +278,6 @@ class Ticket_m extends CI_Model
 
       if (isset($ticket->imei)){
         $this->db->or_like('imei',$ticket->imei);
-      }
-
-      if (isset($ticket->cliente)){
-        $this->db->or_like('cliente',$ticket->cliente);
       }
 
       if (isset($ticket->costo_reparacion)){
@@ -255,8 +313,13 @@ class Ticket_m extends CI_Model
   }
 
   public function fetch_tickets($limit, $start){
+    $this->db->select('t.*,c.nombre AS nombre_cliente, c.apellido_1 AS apellido_1_cliente, c.apellido_2 AS apellido_2_cliente,u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, ta.nombre AS nombre_taller');
+    $this->db->from('ticket t');
+    $this->db->join('cliente c', 't.cliente = c.id','left');
+    $this->db->join('user u', 't.tecnico = u.id','left');
+    $this->db->join('taller ta', 't.taller = ta.id','left');
     $this->db->limit($limit, $start);
-    $query = $this->db->get('ticket');
+    $query = $this->db->get();
 
     if($query->num_rows()>0){
       foreach ($query->result() as $row) {
