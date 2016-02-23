@@ -96,6 +96,13 @@ class Pedido_m extends CI_Model
     if($this->check_exists($pedido->id)){
       $data = array(
       );
+
+      if(isset($pedido->descripcion)){
+        $data['descripcion']=$pedido->descripcion;
+      }
+      if(isset($pedido->link)){
+        $data['link']=$pedido->link;
+      }
       if(isset($pedido->fecha_pedido)){
         $data['fecha_pedido']=$pedido->fecha_pedido;
       }
@@ -153,6 +160,66 @@ class Pedido_m extends CI_Model
     $query=$this->db->get();
     return $query->num_rows();
   }
+
+  function get_pedidos_search($pedido,$page=null,$cantidad=null){
+
+      $this->db->select('p.*,t.num_ticket AS numero_ticket');
+      $this->db->from('pedido p');
+      $this->db->join('ticket t', 'p.ticket = t.id','left');
+
+      if (isset($pedido->descripcion)){
+        $this->db->or_like('descripcion',$pedido->descripcion);
+      }
+      if (isset($pedido->link)){
+        $this->db->or_like('link',$pedido->link);
+      }
+      if (isset($pedido->fecha_pedido)){
+        $this->db->or_like('fecha_pedido',$pedido->fecha_pedido);
+      }
+      if (isset($pedido->proveedor)){
+        $this->db->or_like('proveedor',$pedido->proveedor);
+      }
+
+      if (isset($pedido->fecha_entrega)){
+        $this->db->or_like('fecha_entrega',$pedido->fecha_entrega);
+      }
+
+      if (isset($pedido->precio)){
+        $this->db->or_like('precio',$pedido->precio);
+      }
+
+      if (isset($pedido->ticket)){
+        $this->db->or_like('ticket',$pedido->ticket);
+      }
+      if (isset($cantidad) && isset($page)){
+        $start=($page-1)*$cantidad;
+        $this->db->limit($cantidad, $start);
+        $response= $this->db->get();
+        return $response->result();
+      } else {
+        $response= $this->db->get();
+        return array('cantidad' => $response->num_rows());
+      }
+
+  }
+
+  public function fetch_pedidos($limit, $start){
+    $this->db->select('p.*, t.num_ticket');
+    $this->db->from('pedido p');
+    $this->db->join('ticket t', 'p.ticket = t.id','left');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+
+    if($query->num_rows()>0){
+      foreach ($query->result() as $row) {
+        $data[]=$row;
+      }
+      return $data;
+    }
+    return false;
+
+  }
+
 
 }
  ?>

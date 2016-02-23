@@ -74,10 +74,17 @@ class Pedido extends AT_REST_Controller
       $this->response($update['error'], 404);
     }
     else {
-      $this->response('Update Complete', 200);
+      $this->response(true, 200);
     }
+
   }
 
+  public function pedido_get($id)
+  {
+    $this->load->model('Pedido_m');
+    $res=$this->Pedido_m->get_pedido_by_id($id);
+    $this->response($res, 200);
+  }
 
   public function index_get()
   {
@@ -93,5 +100,26 @@ class Pedido extends AT_REST_Controller
     $this->response(array('cantidad'=>$response),200);
   }
 
+  public function search_get($page,$cantidad){
+    $this->load->model('Pedido_m');
+    $data = (object) json_decode($this->get('json'));
+    $response = $this->Pedido_m->get_pedidos_search($data,$page,$cantidad);
+    $this->response($response,200);
+  }
+
+  public function searchcantidad_get(){
+    $this->load->model('Pedido_m');
+    $data = (object) json_decode($this->get('json'));
+    $response = $this->Pedido_m->get_pedidos_search($data);
+    $this->response($response,200);
+  }
+
+  public function paginado_get($page, $limit){
+    $this->load->model('Pedido_m');
+    $result=($page-1)*$limit;
+    $data['results'] = $this->Pedido_m->
+        fetch_pedidos($limit, $result);
+    $this->response($data['results'],200);
+  }
 }
  ?>
