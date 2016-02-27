@@ -77,7 +77,7 @@ class Pedido_m extends CI_Model
 
   public function get_pedidos_for_ticket_for_logged_user($id){
 
-    $this->db->select('t');
+    $this->db->select('p.*');
     $this->db->from('pedido p');
     $this->db->join('ticket t', 'p.ticket = t.id');
     $this->db->where('t.tecnico',$this->session->userdata('user_id'));
