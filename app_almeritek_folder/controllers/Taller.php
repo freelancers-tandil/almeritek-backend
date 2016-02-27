@@ -76,6 +76,12 @@ public function cantidad_get(){
   $this->response(array('cantidad'=>$response),200);
 }
 
+public function taller_get($id){
+    $this->load->model('Taller_m');
+    // $cliente = json_decode($this->input->input_stream('json'));
+    $data = $this->Taller_m->get_taller_by_id($id);
+    $this->response($data,200);
+}
 
 }
  ?>

@@ -95,5 +95,12 @@ class User extends AT_REST_Controller
     $this->response(array('cantidad'=>$response),200);
   }
 
+  public function user_get($id){
+      $this->load->model('User_m');
+      // $cliente = json_decode($this->input->input_stream('json'));
+      $data = $this->User_m->get_user_by_id($id);
+      $this->response($data,200);
+  }
+
 }
  ?>
