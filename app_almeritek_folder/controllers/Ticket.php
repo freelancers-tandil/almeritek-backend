@@ -77,8 +77,9 @@ class Ticket extends AT_REST_Controller
   }
 
   public function search_get($page,$cantidad){
+    $estados = json_decode($this->get('estados'));
     $data = (object) json_decode($this->get('json'));
-    $response = $this->Ticket_m->get_tickets_search($data,$page,$cantidad);
+    $response = $this->Ticket_m->get_tickets_search($data,$page,$cantidad, $estados);
     $this->response($response,200);
   }
 
@@ -89,9 +90,10 @@ class Ticket extends AT_REST_Controller
   }
 
   public function paginado_get($page, $limit){
+    $estados = json_decode($this->get('estados'));
     $result=($page-1)*$limit;
     $data['results'] = $this->Ticket_m->
-        fetch_tickets($limit, $result);
+        fetch_tickets($limit, $result, $estados);
     $this->response($data['results'],200);
   }
 

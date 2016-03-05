@@ -187,13 +187,14 @@ class Ticket_m extends CI_Model
     return $result->num_rows();
   }
 
-  function get_tickets_search($ticket,$page=null,$cantidad=null){
+  function get_tickets_search($ticket,$page=null,$cantidad=null, $estados){
 
       $this->db->select('t.*,c.nombre AS nombre_cliente, c.apellido_1 AS apellido_1_cliente, c.apellido_2 AS apellido_2_cliente,u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, ta.nombre AS nombre_taller');
       $this->db->from('ticket t');
       $this->db->join('cliente c', 't.cliente = c.id','left');
       $this->db->join('user u', 't.tecnico = u.id','left');
       $this->db->join('taller ta', 't.taller = ta.id','left');
+      $this->db->where_in('t.estado',$estados);
 
       $dato_array = explode(" ",$ticket->cliente);
       $size = sizeof($dato_array);
@@ -312,12 +313,13 @@ class Ticket_m extends CI_Model
 
   }
 
-  public function fetch_tickets($limit, $start){
+  public function fetch_tickets($limit, $start, $estados){
     $this->db->select('t.*,c.nombre AS nombre_cliente, c.apellido_1 AS apellido_1_cliente, c.apellido_2 AS apellido_2_cliente,u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, ta.nombre AS nombre_taller');
     $this->db->from('ticket t');
     $this->db->join('cliente c', 't.cliente = c.id','left');
     $this->db->join('user u', 't.tecnico = u.id','left');
     $this->db->join('taller ta', 't.taller = ta.id','left');
+    $this->db->where_in('t.estado', $estados);
     $this->db->limit($limit, $start);
     $query = $this->db->get();
 
