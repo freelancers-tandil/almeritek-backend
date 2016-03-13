@@ -10,6 +10,7 @@ class Ticket extends AT_REST_Controller
   {
     parent::__construct();
     $this->load->model('Ticket_m');
+    $this->load->model('Ticketporaccesorio_m');
   }
 
   public function index_post(){
@@ -112,5 +113,31 @@ class Ticket extends AT_REST_Controller
 
   }
 
+  public function ticketporaccesorio_post(){
+    $data = json_decode($this->input->input_stream('json'));
+    $ticketAcc = (array) $data;
+    var_dump($data);
+    $add_t= $this->Ticketporaccesorio_m->add_accesorio($ticketAcc['accesorio'], $ticketAcc['ticket']);
+
+    if(!isset($add_t['error']))
+      {
+        $this->response($add_t,200);
+      }
+      else{
+        $this->response($add_t,400);
+      }
+  }
+
+  public function ticketporaccesorio_delete()
+  {
+    $ticket= (object) $this->delete();
+    $delete = $this->Ticketporaccesorio_m->delete_accesorio($ticket->accesorio, $ticket->ticket);
+    if(isset($delete['error'])){
+      $this->response($delete,200);
+    }
+    else{
+      $this->response($delete,400);
+    }
+  }
 }
 ?>
